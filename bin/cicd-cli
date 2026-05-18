@@ -10,6 +10,11 @@ PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 # 切换到项目根目录
 cd "$PROJECT_ROOT"
 
+# 拦截 install 命令
+if [ "$1" = "install" ]; then
+    exec node "$SCRIPT_DIR/cicd-cli-wrapper.js" install
+fi
+
 # 激活虚拟环境（如果存在）
 if [ -f "$PROJECT_ROOT/.venv/bin/activate" ]; then
     source "$PROJECT_ROOT/.venv/bin/activate"

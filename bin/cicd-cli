@@ -12,7 +12,12 @@ cd "$PROJECT_ROOT"
 
 # 拦截 install 命令
 if [ "$1" = "install" ]; then
-    exec node "$SCRIPT_DIR/cicd-cli-wrapper.js" install
+    if command -v node &>/dev/null; then
+        exec node "$SCRIPT_DIR/cicd-cli-wrapper.js" install
+    else
+        echo "错误: 未找到 node。请安装 Node.js 或使用 make install"
+        exit 1
+    fi
 fi
 
 # 激活虚拟环境（优先 ~/.cicd-cli/.venv，其次项目本地 .venv）

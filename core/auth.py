@@ -161,7 +161,7 @@ def _elink_sso_login(cfg):
             parsed = urllib.parse.urlparse(self.path)
             params = urllib.parse.parse_qs(parsed.query)
 
-            # 从 URL 参数或 fragment 提取 token
+            # 从 URL 参数提取 token
             token = params.get("token", [None])[0]
             access_token = params.get("accessToken", params.get("access_token", [None]))[0]
 
@@ -172,6 +172,7 @@ def _elink_sso_login(cfg):
 
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Connection", "close")
                 self.end_headers()
                 self.wfile.write(
                     b"<html><body><h2>cicd-cli</h2>"
@@ -179,29 +180,28 @@ def _elink_sso_login(cfg):
                     b"<script>setTimeout(()=>window.close(),2000)</script>"
                     b"</body></html>"
                 )
+                # 在请求处理完成后关闭服务器
+                threading.Thread(target=lambda: server_ref[0].shutdown(), daemon=True).start()
             else:
-                # 可能 token 在 hash fragment（前端路由），提供 JS 提取
-                token_result["error"] = "no_token_in_params"
+                # token 可能在 hash fragment，用 JS 提取后重定向
                 self.send_response(200)
                 self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Connection", "close")
                 self.end_headers()
                 self.wfile.write(
                     b"<html><body><script>"
                     b"var h=window.location.hash.substring(1);"
                     b"if(h){window.location.href='/callback?'+h;}"
-                    b"else{document.write('<p>Authorization failed</p>');}"
+                    b"else{document.write('<p style=\"color:red\">Authorization failed. No token received.</p>');}"
                     b"</script></body></html>"
                 )
-                return
-
-            # 关闭服务器
-            threading.Thread(target=lambda: server_ref[0].shutdown(), daemon=True).start()
 
         def log_message(self, format, *args):
             pass  # 静默日志
 
     # 启动回调服务器
     server = HTTPServer(("127.0.0.1", callback_port), CallbackHandler)
+    server.timeout = 120
     server_ref[0] = server
 
     # 构建 SSO 登录 URL
@@ -214,11 +214,15 @@ def _elink_sso_login(cfg):
 
     webbrowser.open(sso_url)
 
-    # 等待回调（最多 120 秒）
-    server.timeout = 120
-    server_thread = threading.Thread(target=server.handle_request, daemon=True)
+    # 使用 serve_forever() + shutdown() 确保回调后干净退出
+    server_thread = threading.Thread(target=server.serve_forever, daemon=True)
     server_thread.start()
+
+    # 等待最多 120 秒
     server_thread.join(timeout=120)
+    if server_thread.is_alive():
+        server.shutdown()
+        server_thread.join(timeout=5)
 
     try:
         server.server_close()

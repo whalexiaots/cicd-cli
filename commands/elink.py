@@ -1,4 +1,4 @@
-"""易链 (elink.thundersoft.com) API 命令封装
+"""易链 (elink) API 命令封装
 
 易链功能:
   - 登录认证 (AES-192-ECB + SSO JWT)
@@ -126,9 +126,5 @@ def create_client(project=None):
     )
 
 
-# 已知项目 ID 映射
-KNOWN_PROJECTS = {
-    "Vex": "15967",
-    "SmartEye": "21081",
-    "Vinz": "18148",
-}
+# 已知项目 ID 映射（从配置文件加载，此处为示例）
+KNOWN_PROJECTS = {}

@@ -25,7 +25,7 @@ description: >-
 
 ### 标准刷机流程
 
-```
+```raw
 1. cicd-cli flash +check                    # 确认设备连接
 2. cicd-cli flash +download --images boot.img system.img vendor.img
 3. cicd-cli flash +reboot --mode bootloader  # 进入 fastboot
@@ -35,7 +35,7 @@ description: >-
 
 ### 快速验证 (仅刷 boot)
 
-```
+```raw
 1. cicd-cli flash +download --images boot.img
 2. cicd-cli flash +reboot --mode bootloader
 3. cicd-cli flash +fastboot --partition boot --image ./artifacts/boot.img
@@ -45,7 +45,7 @@ description: >-
 
 ### adb push 单文件
 
-```
+```raw
 1. cicd-cli flash +download --file vendor/lib64/libcamera.so
 2. adb root && adb remount
 3. cicd-cli flash +push ./artifacts/libcamera.so /vendor/lib64/
@@ -93,9 +93,9 @@ description: >-
 ```json
 {
   "projects": {
-    "dodo": {
+    "<project_name>": {
       "device": {
-        "serial": "12345678",
+        "serial": "<DEVICE_SERIAL>",
         "flash_method": "fastboot",
         "flash_script": "turbox_flash.sh"
       }

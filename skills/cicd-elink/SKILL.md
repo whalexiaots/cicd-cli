@@ -2,7 +2,7 @@
 name: cicd-elink
 version: 0.1.0
 description: >-
-  易链 (elink.thundersoft.com) 代码管理平台操作：登录认证、项目查询、Gerrit Review -2 忽略申请。
+  易链代码管理平台操作：登录认证、项目查询、Gerrit Review -2 忽略申请。
   触发词：易链、elink、忽略、ignore、Review -2、checklog、cppcheck、项目列表、代码管理。
 metadata:
   requires:
@@ -34,7 +34,7 @@ cicd-cli elink +status
 
 # 查询项目
 cicd-cli elink +project-list
-cicd-cli elink +project-list --name Vex
+cicd-cli elink +project-list --name ProjectB
 
 # 忽略 Review -2（默认忽略 checklog）
 cicd-cli elink +ignore-review 552058
@@ -43,7 +43,7 @@ cicd-cli elink +ignore-review 552058
 cicd-cli elink +ignore-review 552058 --accounts checklog cppcheck --reason "开源代码不改"
 
 # 指定项目
-cicd-cli elink +ignore-review 552058 --project-name Vex --project-id 15967
+cicd-cli elink +ignore-review 552058 --project-name MyProject --project-id 12345
 ```
 
 ## 配置
@@ -51,18 +51,18 @@ cicd-cli elink +ignore-review 552058 --project-name Vex --project-id 15967
 ```json
 {
   "elink": {
-    "host": "elink.thundersoft.com",
+    "host": "elink.example.com",
     "protocol": "https",
     "auth": {
-      "username": "user_example",
-      "password": "PLACEHOLDER_PASSWORD",
-      "aes_key": "PLACEHOLDER_AES_KEY"
+      "username": "<YOUR_USERNAME>",
+      "password": "<YOUR_PASSWORD>",
+      "aes_key": "<YOUR_AES_KEY>"
     },
     "module": 2
   },
   "projects": {
-    "Vex": {
-      "elink": { "project_id": "15967", "project_name": "Vex" }
+    "MyProject": {
+      "elink": { "project_id": "12345", "project_name": "MyProject" }
     }
   }
 }
@@ -70,11 +70,8 @@ cicd-cli elink +ignore-review 552058 --project-name Vex --project-id 15967
 
 ## 已知项目 ID
 
-| 项目 | ID |
-|------|-----|
-| Vex | 15967 |
-| SmartEye | 21081 |
-| Vinz | 18148 |
+在配置文件 `services.json` 中设置 `projects.<name>.elink.project_id`。
+项目 ID 可通过 `cicd-cli elink +project-list` 查询。
 
 ## 忽略 Review -2 决策规则
 

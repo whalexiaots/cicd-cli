@@ -59,39 +59,39 @@
       "method": "sso",
       "username": "your_username",
       "password": "your_password",
-      "aes_key": "PLACEHOLDER_AES_KEY"
+      "aes_key": "<YOUR_AES_KEY>"
     },
     "secrets_path": "~/.cicd-cli/secrets/elink.json",
     "module": 2
   },
   "projects": {
-    "DoDo": {
+    "ProjectA": {
       "ssh": {
-        "host": "build-dodo.example.com",
-        "remote_dir": "/home/user/dodo"
+        "host": "<BUILD_SERVER_1>",
+        "remote_dir": "/path/to/code"
       },
       "jenkins": {
-        "job_name": "VerifyBuild_for_DoDo"
+        "job_name": "VerifyBuild_for_ProjectA"
       },
       "gerrit": {
-        "project_prefix": "iot/dodo"
+        "project_prefix": "<GERRIT_PROJECT_PREFIX>"
       },
       "elink": {
         "project_id": "12345",
-        "project_name": "DoDo"
+        "project_name": "ProjectA"
       }
     },
-    "Vex": {
+    "ProjectB": {
       "ssh": {
         "host": "build-vex.example.com",
         "remote_dir": "/home/user/vex"
       },
       "jenkins": {
-        "job_name": "VerifyBuild_for_8550"
+        "job_name": "VerifyBuild_for_ProjectB"
       },
       "elink": {
-        "project_id": "15967",
-        "project_name": "Vex"
+        "project_id": "<PROJECT_ID>",
+        "project_name": "<PROJECT_NAME>"
       }
     }
   }

@@ -48,11 +48,11 @@ cicd-cli gerrit +detail 552058
 ```json
 {
   "gerrit": {
-    "host": "https://dev.example-corp.com/gerrit",
-    "port": 3307,
+    "host": "https://gerrit.example.com",
+    "port": 29418,
     "auth": {
       "method": "http_password",
-      "username": "user_example",
+      "username": "<YOUR_USERNAME>",
       "http_password": "<HTTP_PASSWORD>"
     }
   }

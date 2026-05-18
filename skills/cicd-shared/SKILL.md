@@ -39,8 +39,8 @@ services.json
 ├── elink:      { host, auth: { username, password, aes_key } }
 ├── ftp_servers: { chengdu: {...}, beijing1: {...} }
 └── projects:
-    ├── DoDo:   { ssh: {...}, jenkins: {...}, gerrit: {...}, elink: {...} }
-    ├── Vex:    { ssh: {...}, jenkins: {...}, elink: {...} }
+    ├── ProjectA:   { ssh: {...}, jenkins: {...}, gerrit: {...}, elink: {...} }
+    ├── ProjectB:    { ssh: {...}, jenkins: {...}, elink: {...} }
     └── ...
 ```
 
@@ -50,9 +50,9 @@ services.json
 
 ```bash
 cicd-cli project list          # 列出所有项目
-cicd-cli project use DoDo      # 切换到 DoDo 项目
+cicd-cli project use ProjectA      # 切换到 ProjectA 项目
 cicd-cli project show          # 显示当前项目配置
-cicd-cli --project Vex <cmd>   # 临时指定项目（不影响默认值）
+cicd-cli --project ProjectB <cmd>   # 临时指定项目（不影响默认值）
 ```
 
 所有命令自动使用当前项目配置，也支持 `--project` 临时覆盖。

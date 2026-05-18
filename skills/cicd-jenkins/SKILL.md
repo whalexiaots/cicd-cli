@@ -47,11 +47,11 @@ cicd-cli jenkins +console --job VerifyBuild_for_8550 --build 456 --tail 50
 ```json
 {
   "jenkins": {
-    "host": "http://10.0.0.100:8080",
+    "host": "http://<JENKINS_HOST>:8080",
     "auth": { "username": "user", "api_token": "<TOKEN>" },
     "job_name": "VerifyBuild_for_8550",
     "default_params": {
-      "PRODUCT": "Vex",
+      "PRODUCT": "ProjectB",
       "BRANCH": "Turbox-Snapdragon_Mid_2022.SPF.2.0",
       "BUILD_MODE": "FULL_BUILD"
     }

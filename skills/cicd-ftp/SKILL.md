@@ -26,20 +26,20 @@ metadata:
 
 ```bash
 # 通过 URL 下载
-cicd-cli ftp +download "ftp://ftp_user:PLACEHOLDER_FTP_PASS@10.0.0.101/Vex/VerifyBuild/latest.zip"
+cicd-cli ftp +download "ftp://user:pass@server/project/VerifyBuild/latest.zip"
 
 # 通过配置下载
-cicd-cli ftp +download /Vex/VerifyBuild/build_001.zip --local ./build.zip
+cicd-cli ftp +download /project/VerifyBuild/build_001.zip --local ./build.zip
 
 # 指定 FTP 服务器
-cicd-cli ftp +download /path/file.zip --server chengdu
+cicd-cli ftp +download /path/file.zip --server server1
 
 # 列出目录
-cicd-cli ftp +list /Vex/VerifyBuild/
+cicd-cli ftp +list /project/VerifyBuild/
 
 # 测试连接
 cicd-cli ftp +test
-cicd-cli ftp +test --server beijing1
+cicd-cli ftp +test --server server2
 
 # 验证文件
 cicd-cli ftp +verify ./build.zip --md5 abc123def456
@@ -50,16 +50,16 @@ cicd-cli ftp +verify ./build.zip --md5 abc123def456
 ```json
 {
   "ftp": {
-    "host": "10.0.0.101",
+    "host": "<FTP_SERVER_IP>",
     "port": 21,
-    "user": "ftp_user",
-    "password": "PLACEHOLDER_FTP_PASS",
+    "user": "<USERNAME>",
+    "password": "<PASSWORD>",
     "local_dir": "/tmp/downloads",
     "max_retries": 3
   },
   "ftp_servers": {
-    "chengdu": { "host": "10.0.0.101", "user": "ftp_user", "password": "PLACEHOLDER_FTP_PASS" },
-    "beijing1": { "host": "10.0.0.201", "user": "ftp_user2", "password": "thundercomm" }
+    "chengdu": { "host": "<FTP_SERVER_IP>", "user": "<USERNAME>", "password": "<PASSWORD>" },
+    "server2": { "host": "<IP2>", "user": "<USER2>", "password": "<PASS2>" }
   }
 }
 ```

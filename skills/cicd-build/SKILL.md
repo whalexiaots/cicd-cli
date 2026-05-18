@@ -107,16 +107,16 @@ description: >-
 ```json
 {
   "projects": {
-    "dodo": {
+    "<project_name>": {
       "ssh": {
-        "host": "10.0.0.1",
+        "host": "<BUILD_SERVER_IP>",
         "port": 22,
-        "user": "builder",
-        "password": "xxx"
+        "user": "<USERNAME>",
+        "password": "<PASSWORD>"
       },
       "repo": {
-        "root": "/home/scm/code/DoDo/qssi",
-        "product": "dodo",
+        "root": "/path/to/code/root",
+        "product": "<product_name>",
         "variant": "userdebug"
       }
     }

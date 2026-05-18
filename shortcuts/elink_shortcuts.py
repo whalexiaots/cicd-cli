@@ -81,7 +81,7 @@ def handle_elink(args, fmt):
                 out.error("请指定 --project-name 和 --project-id，或在配置中设置 elink.project_id/project_name")
                 return
 
-            gerrit_url = gerrit_cfg.get("host", "https://dev.example-corp.com/gerrit")
+            gerrit_url = gerrit_cfg.get("host", "")
             module = cfg.get("module", 2)
 
             result = client.submit_ignore_check(

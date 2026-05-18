@@ -190,7 +190,7 @@ def get_ftp_config(project=None, config=None):
 def get_elink_config(project=None, config=None):
     cfg = get_service_config("elink", project, config)
     return {
-        "host": cfg.get("host", "elink.thundersoft.com"),
+        "host": cfg.get("host", ""),
         "protocol": cfg.get("protocol", "https"),
         "username": cfg.get("auth", {}).get("username", ""),
         "password": cfg.get("auth", {}).get("password", ""),

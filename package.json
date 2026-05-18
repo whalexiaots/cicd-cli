@@ -1,7 +1,7 @@
 {
-  "name": "@whalexiaots/cicd-cli",
+  "name": "@whale_xiao/cicd-cli",
   "version": "0.1.0",
-  "description": "CI/CD 命令行工具 — 为人类开发者和 AI Agent 设计",
+  "description": "CI/CD \u547d\u4ee4\u884c\u5de5\u5177 \u2014 \u4e3a\u4eba\u7c7b\u5f00\u53d1\u8005\u548c AI Agent \u8bbe\u8ba1",
   "bin": {
     "cicd-cli": "./bin/cicd-cli-wrapper.js"
   },

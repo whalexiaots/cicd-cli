@@ -15,13 +15,13 @@ CI/CD 命令行工具 — 为人类开发者和 AI Agent 设计。
 ### Option 1 — 从 npm 安装 (推荐)
 
 ```bash
-npx @whalexiaots/cicd-cli@latest install
+npx @whale_xiao/cicd-cli@latest install
 ```
 
 或全局安装：
 
 ```bash
-npm install -g @whalexiaots/cicd-cli
+npm install -g @whale_xiao/cicd-cli
 cicd-cli config init
 ```
 
@@ -84,7 +84,7 @@ cicd-cli 支持以下 AI 工具集成。安装后 AI Agent 可自动识别并调
 
 ```bash
 # 方法 1: npm 安装 (推荐)
-npx @whalexiaots/cicd-cli@latest install
+npx @whale_xiao/cicd-cli@latest install
 
 # 方法 2: 从源码安装
 git clone https://github.com/whalexiaots/cicd-cli.git

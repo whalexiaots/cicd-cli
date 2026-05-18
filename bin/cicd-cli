@@ -15,8 +15,10 @@ if [ "$1" = "install" ]; then
     exec node "$SCRIPT_DIR/cicd-cli-wrapper.js" install
 fi
 
-# 激活虚拟环境（如果存在）
-if [ -f "$PROJECT_ROOT/.venv/bin/activate" ]; then
+# 激活虚拟环境（优先 ~/.cicd-cli/.venv，其次项目本地 .venv）
+if [ -f "$HOME/.cicd-cli/.venv/bin/activate" ]; then
+    source "$HOME/.cicd-cli/.venv/bin/activate"
+elif [ -f "$PROJECT_ROOT/.venv/bin/activate" ]; then
     source "$PROJECT_ROOT/.venv/bin/activate"
 fi
 

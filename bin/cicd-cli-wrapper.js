@@ -22,14 +22,21 @@ if (process.argv[2] === 'install') {
   process.exit(0);
 }
 
-// 查找 Python
+// 查找 Python（优先 ~/.cicd-cli/.venv）
+const os = require('os');
+const venvPython = path.join(os.homedir(), '.cicd-cli', '.venv', 'bin', 'python3');
 let python = null;
-for (const cmd of ['python3', 'python']) {
-  try {
-    execSync(`${cmd} --version`, { stdio: 'ignore' });
-    python = cmd;
-    break;
-  } catch {}
+
+if (require('fs').existsSync(venvPython)) {
+  python = venvPython;
+} else {
+  for (const cmd of ['python3', 'python']) {
+    try {
+      execSync(`${cmd} --version`, { stdio: 'ignore' });
+      python = cmd;
+      break;
+    } catch {}
+  }
 }
 
 if (!python) {

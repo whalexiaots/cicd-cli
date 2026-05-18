@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "cicd-cli"
+version = "0.1.0"
+description = "CI/CD 命令行工具 - 为人类和 AI Agent 构建"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [
+    {name = "余霄", email = "user_example@thundersoft.com"},
+]
+
+dependencies = [
+    "paramiko>=2.12.0",
+    "requests>=2.28.0",
+    "pycryptodome>=3.15.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[project.scripts]
+cicd-cli = "core.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["core*", "commands*", "shortcuts*"]

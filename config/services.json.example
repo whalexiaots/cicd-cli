@@ -1,0 +1,98 @@
+{
+  "jenkins": {
+    "host": "jenkins.example.com",
+    "port": 443,
+    "protocol": "https",
+    "auth": {
+      "method": "api_token",
+      "username": "your_username",
+      "api_token": "your_api_token"
+    }
+  },
+  "gerrit": {
+    "host": "gerrit.example.com",
+    "port": 443,
+    "protocol": "https",
+    "auth": {
+      "method": "http_password",
+      "username": "your_username",
+      "http_password": "your_http_password"
+    }
+  },
+  "jira": {
+    "host": "jira.example.com",
+    "port": 443,
+    "protocol": "https",
+    "auth": {
+      "method": "api_token",
+      "username": "your_username",
+      "api_token": "your_api_token"
+    }
+  },
+  "ssh": {
+    "host": "build-server.example.com",
+    "port": 22,
+    "user": "your_username",
+    "password": "your_password",
+    "remote_dir": "/home/user/workspace"
+  },
+  "ftp": {
+    "host": "ftp.example.com",
+    "port": 21,
+    "user": "anonymous",
+    "password": "",
+    "local_dir": "/tmp/downloads",
+    "max_retries": 3
+  },
+  "ftp_servers": {
+    "chengdu": {
+      "host": "ftp-cd.example.com",
+      "port": 21,
+      "user": "user",
+      "password": "pass"
+    }
+  },
+  "elink": {
+    "host": "elink.example.com",
+    "protocol": "https",
+    "auth": {
+      "method": "sso",
+      "username": "your_username",
+      "password": "your_password",
+      "aes_key": "PLACEHOLDER_AES_KEY"
+    },
+    "secrets_path": "~/.cicd-cli/secrets/elink.json",
+    "module": 2
+  },
+  "projects": {
+    "DoDo": {
+      "ssh": {
+        "host": "build-dodo.example.com",
+        "remote_dir": "/home/user/dodo"
+      },
+      "jenkins": {
+        "job_name": "VerifyBuild_for_DoDo"
+      },
+      "gerrit": {
+        "project_prefix": "iot/dodo"
+      },
+      "elink": {
+        "project_id": "12345",
+        "project_name": "DoDo"
+      }
+    },
+    "Vex": {
+      "ssh": {
+        "host": "build-vex.example.com",
+        "remote_dir": "/home/user/vex"
+      },
+      "jenkins": {
+        "job_name": "VerifyBuild_for_8550"
+      },
+      "elink": {
+        "project_id": "15967",
+        "project_name": "Vex"
+      }
+    }
+  }
+}

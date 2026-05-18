@@ -1,0 +1,15 @@
+#!/bin/bash
+# cicd-cli 入口脚本 (Linux/macOS)
+# 用法: cicd-cli <service> [+shortcut|command] [flags]
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# 激活虚拟环境（如果存在）
+if [ -f "$PROJECT_ROOT/.venv/bin/activate" ]; then
+    source "$PROJECT_ROOT/.venv/bin/activate"
+fi
+
+exec python3 -m core.cli "$@"

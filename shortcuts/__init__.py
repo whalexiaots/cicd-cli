@@ -1,0 +1,1 @@
+# cicd-cli shortcuts package

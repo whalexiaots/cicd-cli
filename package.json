@@ -1,0 +1,46 @@
+{
+  "name": "@whalexiaots/cicd-cli",
+  "version": "0.1.0",
+  "description": "CI/CD 命令行工具 — 为人类开发者和 AI Agent 设计",
+  "bin": {
+    "cicd-cli": "./bin/cicd-cli-wrapper.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js",
+    "test": "echo \"See: python -m pytest tests/ -v\""
+  },
+  "keywords": [
+    "cicd",
+    "cli",
+    "gerrit",
+    "jenkins",
+    "jira",
+    "ssh",
+    "ftp",
+    "elink",
+    "ai-agent",
+    "devops"
+  ],
+  "author": "whalexiaots",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whalexiaots/cicd-cli.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "bin/",
+    "core/",
+    "commands/",
+    "shortcuts/",
+    "skills/",
+    "config/",
+    "scripts/",
+    "requirements.txt",
+    "pyproject.toml",
+    "README.md",
+    "AGENTS.md"
+  ]
+}

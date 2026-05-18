@@ -10,12 +10,45 @@ CI/CD 命令行工具 — 为人类开发者和 AI Agent 设计。
 - **AI Agent 友好**: JSON 输出、SKILL.md 自动触发、AGENTS.md 集成指南
 - **多项目支持**: services.json 全局 + 项目级配置覆盖
 
-## 快速开始
+## 安装
+
+### Option 1 — 从 npm 安装 (推荐)
 
 ```bash
-# 安装依赖
-pip install -r requirements.txt
+npx @whalexiaots/cicd-cli@latest install
+```
 
+或全局安装：
+
+```bash
+npm install -g @whalexiaots/cicd-cli
+cicd-cli config init
+```
+
+> 需要 Node.js >= 16 和 Python >= 3.8
+
+### Option 2 — 从源码安装
+
+```bash
+git clone https://github.com/whalexiaots/cicd-cli.git
+cd cicd-cli
+make install
+```
+
+> `make install` 默认安装到 `~/.cicd-cli/`，自动安装 Python 依赖
+
+### Option 3 — 手动安装
+
+```bash
+git clone https://github.com/whalexiaots/cicd-cli.git
+cd cicd-cli
+pip install -r requirements.txt
+export PATH="$PWD/bin:$PATH"
+```
+
+### 初始化
+
+```bash
 # 初始化配置
 cicd-cli config init
 
@@ -50,23 +83,26 @@ cicd-cli 支持以下 AI 工具集成。安装后 AI Agent 可自动识别并调
 ### 通用前置步骤
 
 ```bash
-# 1. 克隆 cicd-cli 到本地
-git clone <repo_url> ~/.cicd-cli/src
+# 方法 1: npm 安装 (推荐)
+npx @whalexiaots/cicd-cli@latest install
+
+# 方法 2: 从源码安装
+git clone https://github.com/whalexiaots/cicd-cli.git
+cd cicd-cli && make install
+
+# 方法 3: 手动安装
+git clone https://github.com/whalexiaots/cicd-cli.git ~/.cicd-cli/src
 cd ~/.cicd-cli/src
-
-# 2. 安装 Python 依赖
 pip install -r requirements.txt
-
-# 3. 将 bin 加入 PATH
 # Linux/macOS:
 echo 'export PATH="$HOME/.cicd-cli/src/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
 # Windows (PowerShell):
 # [Environment]::SetEnvironmentVariable("Path", "$env:USERPROFILE\.cicd-cli\src\bin;$env:Path", "User")
 
-# 4. 初始化配置
+# 初始化配置
 cicd-cli config init
 
-# 5. 验证安装
+# 验证安装
 cicd-cli --version
 ```
 

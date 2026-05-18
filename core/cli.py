@@ -28,6 +28,7 @@ from shortcuts.jenkins_shortcuts import handle_jenkins
 from shortcuts.jira_shortcuts import handle_jira
 from shortcuts.ftp_shortcuts import handle_ftp
 from shortcuts.elink_shortcuts import handle_elink
+from shortcuts.build_shortcuts import handle_build
 
 
 # ── 服务域注册表（各 commit 逐步追加） ──────────────────────
@@ -38,6 +39,7 @@ _SERVICE_HANDLERS = {
     "jira": handle_jira,
     "ftp": handle_ftp,
     "elink": handle_elink,
+    "build": handle_build,
 }
 
 

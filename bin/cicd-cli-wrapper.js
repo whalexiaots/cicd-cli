@@ -2,18 +2,31 @@
 /**
  * cicd-cli Node.js wrapper
  * 将调用转发给 Python 入口
+ * 特殊命令 "install" 执行本地安装初始化
  */
-const { execFileSync } = require('child_process');
+const { execFileSync, execSync } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 
 const ROOT = path.resolve(__dirname, '..');
 const ENTRY = path.join(ROOT, 'core', 'cli.py');
+
+// 拦截 install 命令 — 执行本地初始化
+if (process.argv[2] === 'install') {
+  const postinstall = path.join(ROOT, 'scripts', 'postinstall.js');
+  try {
+    execFileSync(process.execPath, [postinstall], { stdio: 'inherit' });
+  } catch (e) {
+    process.exit(e.status || 1);
+  }
+  process.exit(0);
+}
 
 // 查找 Python
 let python = null;
 for (const cmd of ['python3', 'python']) {
   try {
-    require('child_process').execSync(`${cmd} --version`, { stdio: 'ignore' });
+    execSync(`${cmd} --version`, { stdio: 'ignore' });
     python = cmd;
     break;
   } catch {}

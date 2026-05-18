@@ -7,7 +7,7 @@ description: >-
 metadata:
   requires:
     bins: ["python3"]
-    packages: ["requests", "pycryptodome"]
+    packages: ["requests"]
 ---
 
 # 易链 (elink) 代码管理
@@ -18,7 +18,7 @@ metadata:
 
 | Shortcut | 说明 |
 |----------|------|
-| `+login` | 登录易链（AES-192-ECB 加密 + SSO JWT）|
+| `+login` | 登录易链（浏览器 SSO 授权，自动回调获取 Token）|
 | `+status` | 检查 Token 有效性 |
 | `+project-list` | 查询易链项目列表 |
 | `+ignore-review` | 一键忽略 Gerrit Review -2 |
@@ -55,8 +55,8 @@ cicd-cli elink +ignore-review 552058 --project-name MyProject --project-id 12345
     "protocol": "https",
     "auth": {
       "username": "<YOUR_USERNAME>",
-      "password": "<YOUR_PASSWORD>",
-      "aes_key": "<YOUR_AES_KEY>"
+      "password": "<可选，SSO 模式不需要>",
+      "aes_key": "<可选，SSO 模式不需要>"
     },
     "module": 2
   },
@@ -89,10 +89,18 @@ cicd-cli elink +ignore-review 552058 --project-name MyProject --project-id 12345
 
 ## 认证流程
 
+### SSO 浏览器授权（推荐）
+1. `cicd-cli elink +login` 启动本地回调服务器 (localhost:18632)
+2. 自动打开浏览器到 `https://<host>/sso/token/login?redirect_uri=...`
+3. 用户在浏览器中完成 SSO 认证
+4. SSO 重定向到 localhost 回调，cicd-cli 自动捕获 Token
+5. Token 缓存到 `~/.cicd-cli/secrets/elink.json`
+
+### 账号密码登录（回退方式）
+当 SSO 授权失败时（如无浏览器环境），自动回退：
 1. AES-192-ECB (ZeroPadding) 加密密码
 2. POST `/api/auth/token/login` (x-www-form-urlencoded)
-3. 返回 JWT Token，有效期 8 天
-4. 缓存到 `~/.cicd-cli/secrets/elink.json`
+3. 返回 JWT Token，缓存到 `~/.cicd-cli/secrets/elink.json`
 
 ## 关键约束
 

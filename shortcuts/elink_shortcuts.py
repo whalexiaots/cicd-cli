@@ -40,7 +40,7 @@ def handle_elink(args, fmt):
     ir_p.add_argument("--reason", default="c代码忽略cppcheck 检查",
                       help="忽略理由")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     e_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

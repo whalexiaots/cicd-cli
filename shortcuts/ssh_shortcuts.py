@@ -33,7 +33,7 @@ def handle_ssh(args, fmt):
     dl_p.add_argument("--local", required=True, help="本地保存路径")
 
     # 解析剩余参数
-    remaining = args._remaining if hasattr(args, "_remaining") else sys.argv[3:]
+    remaining = args._remaining if hasattr(args, "_remaining") else sys.argv[2:]
     ssh_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

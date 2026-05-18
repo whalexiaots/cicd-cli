@@ -40,7 +40,7 @@ def handle_ftp(args, fmt):
     v_p.add_argument("filepath", help="本地文件路径")
     v_p.add_argument("--md5", help="期望的 MD5 值")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     f_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

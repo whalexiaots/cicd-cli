@@ -50,7 +50,7 @@ def handle_patch(args, fmt):
                       help="操作类型")
     ab_p.add_argument("--repo", default="", help="仓库相对路径")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     p_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

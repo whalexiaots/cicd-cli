@@ -52,7 +52,7 @@ def handle_flash(args, fmt):
     v_p = sub.add_parser("+verify", help="验证刷机结果")
     v_p.add_argument("--version", help="期望的版本号")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     f_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

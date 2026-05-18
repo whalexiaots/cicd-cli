@@ -58,11 +58,12 @@
     "auth": {
       "method": "sso",
       "username": "your_username",
-      "password": "your_password",
-      "aes_key": "<YOUR_AES_KEY>"
+      "password": "(可选，SSO 模式不需要)",
+      "aes_key": "(可选，SSO 模式不需要)"
     },
     "secrets_path": "~/.cicd-cli/secrets/elink.json",
-    "module": 2
+    "module": 2,
+    "_doc": "SSO 浏览器授权登录（推荐），回退到账号密码方式"
   },
   "projects": {
     "ProjectA": {

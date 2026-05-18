@@ -44,7 +44,7 @@ def handle_gerrit(args, fmt):
     d_p = sub.add_parser("+detail", help="查看 change 详情")
     d_p.add_argument("change_id", help="Change ID")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     gerrit_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

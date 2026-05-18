@@ -35,7 +35,7 @@ def handle_review(args, fmt):
     cm_p = sub.add_parser("+commit-msg", help="检查 commit message")
     cm_p.add_argument("--commits", type=int, default=1, help="回溯 commit 数")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     r_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

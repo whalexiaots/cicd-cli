@@ -68,7 +68,7 @@ def handle_build(args, fmt):
                      help="传递给 turbox_build.sh 的参数")
     c_p.add_argument("--timeout", type=int, default=7200, help="超时秒数")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     b_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

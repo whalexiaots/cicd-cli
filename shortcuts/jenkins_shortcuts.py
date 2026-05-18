@@ -44,7 +44,7 @@ def handle_jenkins(args, fmt):
     c_p.add_argument("--build", required=True, type=int, help="Build 编号")
     c_p.add_argument("--tail", type=int, default=100, help="尾部行数")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     j_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

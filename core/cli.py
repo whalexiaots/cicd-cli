@@ -207,7 +207,7 @@ def build_parser():
 
 def main():
     parser = build_parser()
-    args = parser.parse_args()
+    args, remaining = parser.parse_known_args()
 
     if not args.service:
         parser.print_help()

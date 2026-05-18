@@ -54,7 +54,7 @@ def handle_jira(args, fmt):
     t_p.add_argument("--id", required=True, help="Transition ID")
     t_p.add_argument("--comment", help="流转评论")
 
-    remaining = sys.argv[3:] if len(sys.argv) > 3 else []
+    remaining = sys.argv[2:] if len(sys.argv) > 2 else []
     j_args = parser.parse_args(remaining)
 
     project = getattr(args, "project", None)

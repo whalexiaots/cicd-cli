@@ -1,0 +1,105 @@
+---
+name: cicd-elink
+version: 0.1.0
+description: >-
+  易链 (elink.thundersoft.com) 代码管理平台操作：登录认证、项目查询、Gerrit Review -2 忽略申请。
+  触发词：易链、elink、忽略、ignore、Review -2、checklog、cppcheck、项目列表、代码管理。
+metadata:
+  requires:
+    bins: ["python3"]
+    packages: ["requests", "pycryptodome"]
+---
+
+# 易链 (elink) 代码管理
+
+> **前置条件**: 先阅读 [../cicd-shared/SKILL.md](../cicd-shared/SKILL.md) 了解认证和配置。
+
+## Shortcuts（推荐优先使用）
+
+| Shortcut | 说明 |
+|----------|------|
+| `+login` | 登录易链（AES-192-ECB 加密 + SSO JWT）|
+| `+status` | 检查 Token 有效性 |
+| `+project-list` | 查询易链项目列表 |
+| `+ignore-review` | 一键忽略 Gerrit Review -2 |
+
+## 快速示例
+
+```bash
+# 登录
+cicd-cli elink +login
+
+# 检查 Token 状态
+cicd-cli elink +status
+
+# 查询项目
+cicd-cli elink +project-list
+cicd-cli elink +project-list --name Vex
+
+# 忽略 Review -2（默认忽略 checklog）
+cicd-cli elink +ignore-review 552058
+
+# 忽略特定检查
+cicd-cli elink +ignore-review 552058 --accounts checklog cppcheck --reason "开源代码不改"
+
+# 指定项目
+cicd-cli elink +ignore-review 552058 --project-name Vex --project-id 15967
+```
+
+## 配置
+
+```json
+{
+  "elink": {
+    "host": "elink.thundersoft.com",
+    "protocol": "https",
+    "auth": {
+      "username": "user_example",
+      "password": "PLACEHOLDER_PASSWORD",
+      "aes_key": "PLACEHOLDER_AES_KEY"
+    },
+    "module": 2
+  },
+  "projects": {
+    "Vex": {
+      "elink": { "project_id": "15967", "project_name": "Vex" }
+    }
+  }
+}
+```
+
+## 已知项目 ID
+
+| 项目 | ID |
+|------|-----|
+| Vex | 15967 |
+| SmartEye | 21081 |
+| Vinz | 18148 |
+
+## 忽略 Review -2 决策规则
+
+### 可以直接忽略的情况：
+- 修改 C/C++ 代码，cppcheck/pclint -2: **固定理由** `c代码忽略cppcheck 检查`
+- 修改开源/第三方/vendor 代码
+- checklog -2，但 commit message 符合规范（误报）
+- XML/配置文件被静态分析误报
+- copyright -2，文件无需版权头
+
+### 需要先修改代码的情况：
+- cppcheck/checkstyle 报出真实 bug
+- commit message 格式确实不规范
+- 明确的逻辑/安全问题
+
+## 认证流程
+
+1. AES-192-ECB (ZeroPadding) 加密密码
+2. POST `/api/auth/token/login` (x-www-form-urlencoded)
+3. 返回 JWT Token，有效期 8 天
+4. 缓存到 `~/.cicd-cli/secrets/elink.json`
+
+## 关键约束
+
+- **CRITICAL**: 忽略申请前必须先分析 -2 的具体原因（查 Gerrit comments/messages）
+- **CRITICAL**: 真实 bug 不能忽略，必须先修复代码
+- **WARNING**: Token 过期自动提示重新登录
+- module 参数: 2=IoT智能硬件, 1=智能汽车

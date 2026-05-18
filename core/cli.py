@@ -29,6 +29,7 @@ from shortcuts.jira_shortcuts import handle_jira
 from shortcuts.ftp_shortcuts import handle_ftp
 from shortcuts.elink_shortcuts import handle_elink
 from shortcuts.build_shortcuts import handle_build
+from shortcuts.review_shortcuts import handle_review
 
 
 # ── 服务域注册表（各 commit 逐步追加） ──────────────────────
@@ -40,6 +41,7 @@ _SERVICE_HANDLERS = {
     "ftp": handle_ftp,
     "elink": handle_elink,
     "build": handle_build,
+    "review": handle_review,
 }
 
 

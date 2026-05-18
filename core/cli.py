@@ -22,10 +22,13 @@ from core.config import (
     set_current_project,
 )
 from core.auth import auth_status, elink_login
+from shortcuts.ssh_shortcuts import handle_ssh
 
 
 # ── 服务域注册表（各 commit 逐步追加） ──────────────────────
-_SERVICE_HANDLERS = {}
+_SERVICE_HANDLERS = {
+    "ssh": handle_ssh,
+}
 
 
 def register_service(name, handler):

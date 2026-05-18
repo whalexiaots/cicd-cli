@@ -26,6 +26,7 @@ from shortcuts.ssh_shortcuts import handle_ssh
 from shortcuts.gerrit_shortcuts import handle_gerrit
 from shortcuts.jenkins_shortcuts import handle_jenkins
 from shortcuts.jira_shortcuts import handle_jira
+from shortcuts.ftp_shortcuts import handle_ftp
 
 
 # ── 服务域注册表（各 commit 逐步追加） ──────────────────────
@@ -34,6 +35,7 @@ _SERVICE_HANDLERS = {
     "gerrit": handle_gerrit,
     "jenkins": handle_jenkins,
     "jira": handle_jira,
+    "ftp": handle_ftp,
 }
 
 

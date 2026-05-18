@@ -60,6 +60,27 @@ if (fs.existsSync(skillsSrc)) {
   console.log('⚠️  未找到 skills 目录');
 }
 
+// === Step 2.5: 创建 Claude Code skills 软链接 ===
+const claudeSkillsDir = path.join(HOME, '.claude', 'skills');
+if (fs.existsSync(path.join(HOME, '.claude'))) {
+  fs.mkdirSync(claudeSkillsDir, { recursive: true });
+  const skillDirs = fs.existsSync(SKILLS_DIR) ?
+    fs.readdirSync(SKILLS_DIR).filter(d => fs.statSync(path.join(SKILLS_DIR, d)).isDirectory()) : [];
+  let linked = 0;
+  for (const skill of skillDirs) {
+    const linkPath = path.join(claudeSkillsDir, skill);
+    const target = path.join(SKILLS_DIR, skill);
+    try {
+      if (fs.existsSync(linkPath)) fs.rmSync(linkPath, { recursive: true });
+      fs.symlinkSync(target, linkPath);
+      linked++;
+    } catch {}
+  }
+  if (linked > 0) {
+    console.log(`🔗 ${linked} 个 skills 已链接到 Claude Code: ${claudeSkillsDir}`);
+  }
+}
+
 // === Step 3: 创建默认配置 ===
 console.log('\n⚙️  配置文件...');
 fs.mkdirSync(CONFIG_DIR, { recursive: true });

@@ -30,6 +30,7 @@ from shortcuts.ftp_shortcuts import handle_ftp
 from shortcuts.elink_shortcuts import handle_elink
 from shortcuts.build_shortcuts import handle_build
 from shortcuts.review_shortcuts import handle_review
+from shortcuts.patch_shortcuts import handle_patch
 
 
 # ── 服务域注册表（各 commit 逐步追加） ──────────────────────
@@ -42,6 +43,7 @@ _SERVICE_HANDLERS = {
     "elink": handle_elink,
     "build": handle_build,
     "review": handle_review,
+    "patch": handle_patch,
 }
 
 

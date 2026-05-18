@@ -144,68 +144,17 @@ def elink_login(username=None, password=None, aes_key=None):
 
 
 def _elink_sso_login(cfg):
-    """通过浏览器 SSO 授权登录易链"""
-    import threading
+    """通过浏览器 SSO 授权登录易链
+
+    流程:
+      1. 打开浏览器到 SSO 登录页
+      2. 用户完成认证（自动跳转到 elink Web）
+      3. 从浏览器 Cookie 提取 token 并输入到 CLI
+    """
     import webbrowser
-    import urllib.parse
-    from http.server import HTTPServer, BaseHTTPRequestHandler
 
     base_url = f"{cfg['protocol']}://{cfg['host']}"
-    callback_port = 18632  # 固定回调端口
-    callback_url = f"http://localhost:{callback_port}/callback"
-    token_result = {"token": None, "error": None}
-    server_ref = [None]
-
-    class CallbackHandler(BaseHTTPRequestHandler):
-        def do_GET(self):
-            parsed = urllib.parse.urlparse(self.path)
-            params = urllib.parse.parse_qs(parsed.query)
-
-            # 从 URL 参数提取 token
-            token = params.get("token", [None])[0]
-            access_token = params.get("accessToken", params.get("access_token", [None]))[0]
-
-            if token:
-                token_result["token"] = token
-                token_result["access_token"] = access_token or ""
-                token_result["user_id"] = params.get("userId", [""])[0]
-
-                self.send_response(200)
-                self.send_header("Content-Type", "text/html; charset=utf-8")
-                self.send_header("Connection", "close")
-                self.end_headers()
-                self.wfile.write(
-                    b"<html><body><h2>cicd-cli</h2>"
-                    b"<p style='color:green'>&#10004; Login Success! You can close this page now.</p>"
-                    b"<script>setTimeout(()=>window.close(),2000)</script>"
-                    b"</body></html>"
-                )
-                # 在请求处理完成后关闭服务器
-                threading.Thread(target=lambda: server_ref[0].shutdown(), daemon=True).start()
-            else:
-                # token 可能在 hash fragment，用 JS 提取后重定向
-                self.send_response(200)
-                self.send_header("Content-Type", "text/html; charset=utf-8")
-                self.send_header("Connection", "close")
-                self.end_headers()
-                self.wfile.write(
-                    b"<html><body><script>"
-                    b"var h=window.location.hash.substring(1);"
-                    b"if(h){window.location.href='/callback?'+h;}"
-                    b"else{document.write('<p style=\"color:red\">Authorization failed. No token received.</p>');}"
-                    b"</script></body></html>"
-                )
-
-        def log_message(self, format, *args):
-            pass  # 静默日志
-
-    # 启动回调服务器
-    server = HTTPServer(("127.0.0.1", callback_port), CallbackHandler)
-    server.timeout = 120
-    server_ref[0] = server
-
-    # 构建 SSO 登录 URL
-    sso_url = f"{base_url}/sso/token/login?redirect_uri={urllib.parse.quote(callback_url)}"
+    sso_url = f"{base_url}/sso/token/login"
 
     print(json.dumps({
         "status": "waiting",
@@ -214,23 +163,40 @@ def _elink_sso_login(cfg):
 
     webbrowser.open(sso_url)
 
-    # 使用 serve_forever() + shutdown() 确保回调后干净退出
-    server_thread = threading.Thread(target=server.serve_forever, daemon=True)
-    server_thread.start()
+    # 提示用户提取 token
+    print("\n" + "=" * 60, file=sys.stderr)
+    print("SSO 授权登录步骤:", file=sys.stderr)
+    print("1. 在浏览器中完成登录（自动跳转到易链页面）", file=sys.stderr)
+    print("2. 登录成功后，按 F12 打开开发者工具", file=sys.stderr)
+    print("3. 切换到 Application → Cookies → elink.thundersoft.com", file=sys.stderr)
+    print("4. 复制 'token' 字段的值", file=sys.stderr)
+    print("=" * 60, file=sys.stderr)
 
-    # 等待最多 120 秒
-    server_thread.join(timeout=120)
-    if server_thread.is_alive():
-        server.shutdown()
-        server_thread.join(timeout=5)
-
+    # 等待用户输入 token
     try:
-        server.server_close()
-    except Exception:
-        pass
+        token = input("\n请粘贴 token（或输入 q 取消）: ").strip()
+    except (EOFError, KeyboardInterrupt):
+        raise RuntimeError("用户取消 SSO 授权")
 
-    if not token_result["token"]:
-        raise RuntimeError("SSO 授权超时或失败")
+    if not token or token.lower() == "q":
+        raise RuntimeError("用户取消 SSO 授权")
+
+    # 保存 token
+    secrets_path = Path(cfg["secrets_path"]).expanduser()
+    secrets_path.parent.mkdir(parents=True, exist_ok=True)
+
+    secrets = {
+        "token": token,
+        "accessToken": "",
+        "cookie": f"token={token}",
+        "userId": "",
+        "account": cfg.get("username", ""),
+        "login_method": "sso",
+    }
+    with open(secrets_path, "w", encoding="utf-8") as f:
+        json.dump(secrets, f, indent=2, ensure_ascii=False)
+
+    return {"status": "ok", "message": f"SSO 授权成功: {token[:8]}..."}
 
     # 保存 token
     secrets_path = Path(cfg["secrets_path"]).expanduser()

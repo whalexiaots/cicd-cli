@@ -90,10 +90,10 @@ cicd-cli elink +ignore-review 552058 --project-name MyProject --project-id 12345
 ## 认证流程
 
 ### SSO 浏览器授权（推荐）
-1. `cicd-cli elink +login` 启动本地回调服务器 (localhost:18632)
-2. 自动打开浏览器到 `https://<host>/sso/token/login?redirect_uri=...`
-3. 用户在浏览器中完成 SSO 认证
-4. SSO 重定向到 localhost 回调，cicd-cli 自动捕获 Token
+1. `cicd-cli elink +login` 自动打开浏览器到 SSO 登录页
+2. 用户在浏览器中完成 SSO 认证（自动跳转到易链 Web 页面）
+3. 登录成功后，F12 → Application → Cookies → 复制 `token` 值
+4. 粘贴到 CLI 终端
 5. Token 缓存到 `~/.cicd-cli/secrets/elink.json`
 
 ### 账号密码登录（回退方式）

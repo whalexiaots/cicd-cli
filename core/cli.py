@@ -25,6 +25,7 @@ from core.auth import auth_status, elink_login
 from shortcuts.ssh_shortcuts import handle_ssh
 from shortcuts.gerrit_shortcuts import handle_gerrit
 from shortcuts.jenkins_shortcuts import handle_jenkins
+from shortcuts.jira_shortcuts import handle_jira
 
 
 # ── 服务域注册表（各 commit 逐步追加） ──────────────────────
@@ -32,6 +33,7 @@ _SERVICE_HANDLERS = {
     "ssh": handle_ssh,
     "gerrit": handle_gerrit,
     "jenkins": handle_jenkins,
+    "jira": handle_jira,
 }
 
 

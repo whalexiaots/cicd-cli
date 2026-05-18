@@ -168,7 +168,7 @@ def _elink_sso_login(cfg):
     print("SSO 授权登录步骤:", file=sys.stderr)
     print("1. 在浏览器中完成登录（自动跳转到易链页面）", file=sys.stderr)
     print("2. 登录成功后，按 F12 打开开发者工具", file=sys.stderr)
-    print("3. 切换到 Application → Cookies → elink.thundersoft.com", file=sys.stderr)
+    print(f"3. 切换到 Application → Cookies → {cfg['host']}", file=sys.stderr)
     print("4. 复制 'token' 字段的值", file=sys.stderr)
     print("=" * 60, file=sys.stderr)
 

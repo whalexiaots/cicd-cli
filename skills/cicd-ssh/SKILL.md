@@ -41,7 +41,7 @@ cicd-cli ssh +download --remote /home/user/build/out.zip --local ./out.zip
 ```json
 {
   "ssh": {
-    "host": "10.0.0.200",
+    "host": "build-server.example.com",
     "port": 36002,
     "user": "username",
     "password": "password",

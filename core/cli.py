@@ -31,6 +31,7 @@ from shortcuts.elink_shortcuts import handle_elink
 from shortcuts.build_shortcuts import handle_build
 from shortcuts.review_shortcuts import handle_review
 from shortcuts.patch_shortcuts import handle_patch
+from shortcuts.flash_shortcuts import handle_flash
 
 
 # ── 服务域注册表（各 commit 逐步追加） ──────────────────────
@@ -44,6 +45,7 @@ _SERVICE_HANDLERS = {
     "build": handle_build,
     "review": handle_review,
     "patch": handle_patch,
+    "flash": handle_flash,
 }
 
 
